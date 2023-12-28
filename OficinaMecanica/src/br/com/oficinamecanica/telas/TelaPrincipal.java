@@ -215,10 +215,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         );
 
         MenCad.setText("Cadastro");
+        MenCad.setEnabled(false);
 
         MenCadUsu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
         MenCadUsu.setText("Usuários");
-        MenCadUsu.setEnabled(false);
         MenCad.add(MenCadUsu);
 
         Menu.add(MenCad);
@@ -340,7 +340,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu MenAju;
     private javax.swing.JMenuItem MenAjuSo;
-    private javax.swing.JMenu MenCad;
+    public static javax.swing.JMenu MenCad;
     private javax.swing.JMenuItem MenCadUsu;
     private javax.swing.JMenu MenOp;
     private javax.swing.JMenuItem MenOpSa;

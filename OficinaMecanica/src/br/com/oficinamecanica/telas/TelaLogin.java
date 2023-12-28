@@ -14,11 +14,11 @@ import javax.swing.JOptionPane;
  * @author ti.speed
  */
 public class TelaLogin extends javax.swing.JFrame {
-    
+
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
-    
+
     public void logar() {
         String sql = "select * from tbusuarios where login=? and senha=?";
         try {
@@ -33,10 +33,24 @@ public class TelaLogin extends javax.swing.JFrame {
             rs = pst.executeQuery();
             //se existir usuário e senha correspondente
             if (rs.next()) {
-                TelaPrincipal principal = new TelaPrincipal();
-                principal.setVisible(true);
-                this.dispose();
-                conexao.close();
+                //a linha abaixo obtem o conteúdo do campo perfil da tabela tbusuarios
+                String perfil = rs.getString(5);
+                //System.out.println(perfil);
+                //a estrutura abaixo faz o tratamento do perfil do usuário
+                if (perfil.equals("admin")) {
+                    TelaPrincipal principal = new TelaPrincipal();
+                    principal.setVisible(true);
+                    TelaPrincipal.MenRel.setEnabled(true);
+                    TelaPrincipal.MenCad.setEnabled(true);
+                    TelaPrincipal.jButtonRelatorios.setEnabled(true);
+                    this.dispose();
+                    conexao.close();
+                } else {
+                    TelaPrincipal principal = new TelaPrincipal();
+                    principal.setVisible(true);
+                    this.dispose();
+                    conexao.close();
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "usuário e/ou senha inválido(s)");
             }

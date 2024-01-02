@@ -40,8 +40,8 @@ public class TelaLogin extends javax.swing.JFrame {
                 if (perfil.equals("admin")) {
                     TelaPrincipal principal = new TelaPrincipal();
                     principal.setVisible(true);
-                    TelaPrincipal.MenRel.setEnabled(true);
-                    TelaPrincipal.MenCad.setEnabled(true);
+                    TelaPrincipal.menRel.setEnabled(true);
+                    TelaPrincipal.menCad.setEnabled(true);
                     TelaPrincipal.jButtonRelatorios.setEnabled(true);
                     this.dispose();
                     conexao.close();

@@ -291,7 +291,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClientesActionPerformed
-        // TODO add your handling code here:
+        // chamando a tela de clientes
+        TelaClientes cliente = new TelaClientes();
+        cliente.setVisible(true);
+        desktop.add(cliente);
     }//GEN-LAST:event_jButtonClientesActionPerformed
 
     private void jButtonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRelatoriosActionPerformed

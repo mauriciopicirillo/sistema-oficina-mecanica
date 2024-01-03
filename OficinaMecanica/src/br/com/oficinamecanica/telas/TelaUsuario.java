@@ -75,7 +75,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                 //a linha abaixo serve de apoio ao entendimento da lógica
                 //System.out.println(adicionado);
                 if (adicionado > 0) {
-                    JOptionPane.showMessageDialog(null, "Usuário adicionado com sucesso");
+                    JOptionPane.showMessageDialog(null, "Usuário adicionado com sucesso!");
                     txtUsuId.setText(null);
                     txtUsuNome.setText(null);
                     txtUsuLogin.setText(null);
@@ -110,7 +110,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                 //a linha abaixo serve de apoio ao entendimento da lógica
                 //System.out.println(adicionado);
                 if (adicionado > 0) {
-                    JOptionPane.showMessageDialog(null, "Dados do usuário alterados com sucesso");
+                    JOptionPane.showMessageDialog(null, "Dados do usuário alterados com sucesso!");
                     txtUsuId.setText(null);
                     txtUsuNome.setText(null);
                     txtUsuLogin.setText(null);
@@ -125,7 +125,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
     //método responsável pela remoção de usuários
     private void remover() {
         //a estrutura abaixo confirma a remoção do usuário
-        int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este usuário", "Atenção", JOptionPane.YES_NO_OPTION);
+        int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este usuário?", "Atenção", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
             String sql = "delete from tbusuarios where iduser=?";
             try {
@@ -133,7 +133,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                 pst.setString(1, txtUsuId.getText());
                 int apagado = pst.executeUpdate();
                 if(apagado > 0) {
-                    JOptionPane.showMessageDialog(null, "Usuário Removido com sucesso");
+                    JOptionPane.showMessageDialog(null, "Usuário Removido com sucesso!");
                     txtUsuId.setText(null);
                     txtUsuNome.setText(null);
                     txtUsuLogin.setText(null);

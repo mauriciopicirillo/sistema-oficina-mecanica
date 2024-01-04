@@ -5,22 +5,72 @@
  */
 package br.com.oficinamecanica.telas;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author ti.speed
  */
-
 public class TelaPrincipal extends javax.swing.JFrame {
-    
-    
 
     /**
      * Creates new form TelaPrincipal
      */
     public TelaPrincipal() {
         initComponents();
+
+        // Adiciona um ComponentAdapter para capturar eventos de alteração no tamanho da janela
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                centralizarJPanel();
+            }
+        });
+
+        // Centraliza o jPanel1 inicialmente
+        centralizarJPanel();
+
+        // Configuração do layout para jPanel2
+        jPanel2.setLayout(new GridBagLayout());
+
+        // Adiciona o componente ao GridBagConstraints para expandir verticalmente
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.VERTICAL; // Define para expandir verticalmente
+        gbc.weighty = 1.0; // Peso para expandir na direção vertical
+
+        // Adiciona um componente fictício (por exemplo, um JLabel) para ocupar espaço vertical
+        jPanel2.add(new javax.swing.JLabel(), gbc);
+    }
+
+    // Método para centralizar o jPanel1
+    private void centralizarJPanel() {
+        // Obtém as dimensões do contêiner e do jPanel1
+        Dimension containerSize = getSize();
+        Dimension panelSize = jPanel2.getPreferredSize();
+
+        // Calcula a posição para centralizar o jPanel1 horizontalmente
+        int x = (containerSize.width - panelSize.width) / 2;
+
+        // Se a janela não estiver maximizada, calcula a posição para centralizar o jPanel1 verticalmente
+        int y = (containerSize.height - panelSize.height) / 2;
+
+        // Se a janela estiver maximizada, ajusta a altura do jPanel1 para a altura disponível
+        if (getExtendedState() == MAXIMIZED_BOTH) {
+            y = 0;  // Define o topo do jPanel1 para o topo da janela
+            panelSize.height = containerSize.height;  // Define a altura do jPanel1 para a altura da janela
+//            x = 0; // Define a largura do jPanel1 para o comprimento da janela
+//            panelSize.width = containerSize.width; // Define a largura do jPanel1 para a altura da janela
+        }
+
+        // Define a posição e o tamanho do jPanel1
+        jPanel2.setBounds(x, y, panelSize.width, panelSize.height);
+
     }
 
     /**
@@ -32,10 +82,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
-        jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        cabecalho = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -44,37 +93,38 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButtonOrcamentos = new javax.swing.JButton();
         jButtonRelatorios = new javax.swing.JButton();
         jLabelUsuario = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        desktop = new javax.swing.JDesktopPane();
+        desktop = new javax.swing.JPanel();
         Menu = new javax.swing.JMenuBar();
-        menCad = new javax.swing.JMenu();
-        menCadUsu = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        menCad = new javax.swing.JMenuItem();
         menRel = new javax.swing.JMenu();
-        menRelSer = new javax.swing.JMenuItem();
-        menAju = new javax.swing.JMenu();
-        menAjuSo = new javax.swing.JMenuItem();
-        menOp = new javax.swing.JMenu();
-        menOpSai = new javax.swing.JMenuItem();
-
-        jPasswordField1.setText("jPasswordField1");
-
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema Ricardo Oficina Mecânica e Auto Eletrico");
-
-        jPanel1.setBackground(new java.awt.Color(113, 147, 181));
+        setBackground(new java.awt.Color(192, 215, 225));
+        setMinimumSize(new java.awt.Dimension(1024, 768));
+        setPreferredSize(new java.awt.Dimension(0, 0));
 
         jPanel2.setBackground(new java.awt.Color(192, 215, 225));
+        jPanel2.setMinimumSize(new java.awt.Dimension(1024, 757));
+        jPanel2.setPreferredSize(new java.awt.Dimension(1024, 757));
+
+        jPanel1.setBackground(new java.awt.Color(192, 215, 225));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1004, 724));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1004, 724));
+        jPanel1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jPanel1PropertyChange(evt);
+            }
+        });
+
+        cabecalho.setBackground(new java.awt.Color(192, 215, 225));
+        cabecalho.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        cabecalho.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/oficinamecanica/icones/LogoT.png"))); // NOI18N
 
@@ -111,91 +161,79 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabelUsuario.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+        javax.swing.GroupLayout cabecalhoLayout = new javax.swing.GroupLayout(cabecalho);
+        cabecalho.setLayout(cabecalhoLayout);
+        cabecalhoLayout.setHorizontalGroup(
+            cabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cabecalhoLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
                 .addComponent(jLabel1)
-                .addGap(46, 46, 46)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabelUsuario, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jButtonClientes)
+                .addGroup(cabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(cabecalhoLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addGap(68, 68, 68))
+                    .addGroup(cabecalhoLayout.createSequentialGroup()
+                        .addGap(103, 103, 103)
+                        .addComponent(jButtonClientes)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(cabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cabecalhoLayout.createSequentialGroup()
                         .addComponent(jButtonOrcamentos)
-                        .addGap(60, 60, 60)
+                        .addGap(29, 29, 29))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(11, 11, 11)
+                .addComponent(jLabelUsuario)
+                .addGap(41, 41, 41)
+                .addGroup(cabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel2)
+                    .addGroup(cabecalhoLayout.createSequentialGroup()
                         .addComponent(jButtonRelatorios)
                         .addGap(10, 10, 10)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(31, 31, 31))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        cabecalhoLayout.setVerticalGroup(
+            cabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cabecalhoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabelUsuario)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel2)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(7, 7, 7)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jButtonOrcamentos)
-                                    .addComponent(jButtonClientes)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonRelatorios))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
+                .addGroup(cabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelUsuario)
+                    .addGroup(cabecalhoLayout.createSequentialGroup()
+                        .addGap(13, 13, 13)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cabecalhoLayout.createSequentialGroup()
+                .addContainerGap(27, Short.MAX_VALUE)
+                .addGroup(cabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(cabecalhoLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonRelatorios))
+                    .addGroup(cabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel3)
+                        .addGroup(cabecalhoLayout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addGap(7, 7, 7)
+                            .addGroup(cabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jButtonOrcamentos)
+                                .addComponent(jButtonClientes)))))
+                .addContainerGap())
         );
 
-        jPanel3.setBackground(new java.awt.Color(192, 215, 225));
-
-        desktop.setPreferredSize(new java.awt.Dimension(779, 505));
+        desktop.setBackground(new java.awt.Color(192, 215, 225));
+        desktop.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        desktop.setAutoscrolls(true);
+        desktop.setMinimumSize(new java.awt.Dimension(980, 503));
 
         javax.swing.GroupLayout desktopLayout = new javax.swing.GroupLayout(desktop);
         desktop.setLayout(desktopLayout);
         desktopLayout.setHorizontalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 980, Short.MAX_VALUE)
         );
         desktopLayout.setVerticalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 505, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGap(0, 507, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -204,74 +242,76 @@ public class TelaPrincipal extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cabecalho, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cabecalho, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(desktop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        menCad.setText("Cadastro");
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jMenu1.setText("Cadastro");
+
+        menCad.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
+        menCad.setText("Usuários");
         menCad.setEnabled(false);
         menCad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menCadActionPerformed(evt);
             }
         });
+        jMenu1.add(menCad);
 
-        menCadUsu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
-        menCadUsu.setText("Usuários");
-        menCadUsu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menCadUsuActionPerformed(evt);
-            }
-        });
-        menCad.add(menCadUsu);
+        Menu.add(jMenu1);
 
-        Menu.add(menCad);
-
-        menRel.setText("Relatório");
+        menRel.setText("Relatórios");
         menRel.setEnabled(false);
-
-        menRelSer.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK));
-        menRelSer.setText("Serviços");
-        menRel.add(menRelSer);
-
         Menu.add(menRel);
 
-        menAju.setText("Ajuda");
+        jMenu3.setText("Ajuda");
 
-        menAjuSo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, java.awt.event.InputEvent.ALT_MASK));
-        menAjuSo.setText("Sobre");
-        menAjuSo.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem2.setText("Sobre");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menAjuSoActionPerformed(evt);
+                jMenuItem2ActionPerformed(evt);
             }
         });
-        menAju.add(menAjuSo);
+        jMenu3.add(jMenuItem2);
 
-        Menu.add(menAju);
+        Menu.add(jMenu3);
 
-        menOp.setText("Opções");
+        jMenu4.setText("Opções");
 
-        menOpSai.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
-        menOpSai.setText("Sair");
-        menOpSai.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menOpSaiActionPerformed(evt);
-            }
-        });
-        menOp.add(menOpSai);
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem3.setText("Sair");
+        jMenu4.add(jMenuItem3);
 
-        Menu.add(menOp);
+        Menu.add(jMenu4);
 
         setJMenuBar(Menu);
 
@@ -279,14 +319,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 1024, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 757, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1040, 807));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -295,6 +339,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         TelaClientes cliente = new TelaClientes();
         cliente.setVisible(true);
         desktop.add(cliente);
+
+
     }//GEN-LAST:event_jButtonClientesActionPerformed
 
     private void jButtonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRelatoriosActionPerformed
@@ -306,33 +352,25 @@ public class TelaPrincipal extends javax.swing.JFrame {
         TelaOs os = new TelaOs();
         os.setVisible(true);
         desktop.add(os);
+
     }//GEN-LAST:event_jButtonOrcamentosActionPerformed
 
-    private void menOpSaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menOpSaiActionPerformed
-        // exibe uma caixa de diálogo
-        int sair = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair?", "Atenção", JOptionPane.YES_NO_OPTION);
-        if (sair == JOptionPane.YES_OPTION) {
-            System.exit(0);
-        }
-    }//GEN-LAST:event_menOpSaiActionPerformed
-
-    private void menAjuSoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menAjuSoActionPerformed
-        // chamando a tela sobre
-        TelaSobre sobre = new TelaSobre();
-        sobre.setVisible(true);
-        
-    }//GEN-LAST:event_menAjuSoActionPerformed
-
     private void menCadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_menCadActionPerformed
-
-    private void menCadUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadUsuActionPerformed
         // as linhas abaixo irão abrir o form Tela Usuario dentro do Desktop pane
         TelaUsuario usuario = new TelaUsuario();
         usuario.setVisible(true);
         desktop.add(usuario);
-    }//GEN-LAST:event_menCadUsuActionPerformed
+    }//GEN-LAST:event_menCadActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // chamando a tela sobre
+        TelaSobre sobre = new TelaSobre();
+        sobre.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jPanel1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jPanel1PropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel1PropertyChange
 
     /**
      * @param args the command line arguments
@@ -371,27 +409,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar Menu;
-    private javax.swing.JDesktopPane desktop;
+    private javax.swing.JPanel cabecalho;
+    private javax.swing.JPanel desktop;
     private javax.swing.JButton jButtonClientes;
     private javax.swing.JButton jButtonOrcamentos;
     public static javax.swing.JButton jButtonRelatorios;
-    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabelUsuario;
+    public static javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JMenu menAju;
-    private javax.swing.JMenuItem menAjuSo;
-    public static javax.swing.JMenu menCad;
-    private javax.swing.JMenuItem menCadUsu;
-    private javax.swing.JMenu menOp;
-    private javax.swing.JMenuItem menOpSai;
+    public static javax.swing.JMenuItem menCad;
     public static javax.swing.JMenu menRel;
-    private javax.swing.JMenuItem menRelSer;
     // End of variables declaration//GEN-END:variables
 }

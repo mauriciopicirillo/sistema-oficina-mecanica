@@ -40,14 +40,15 @@ delete from tbusuarios where iduser=3;
 create	table tbclientes(
 idcli int primary key auto_increment,
 nomecli varchar(150) not null,
-cpfcli varchar(15),
+cpfcli varchar(15) not null unique,
 fonecli varchar(50) not null,
 endcli varchar(150),
 numerocli varchar(15),
 bairrocli varchar(150),
 cidadecli varchar(150),
 estadocli varchar(2),
-cepcli varchar(50)
+cepcli varchar(50),
+email varchar(150),
 ); 
 
 describe tbclientes;
@@ -68,9 +69,9 @@ ano varchar(50) not null,
 motor varchar(50) not null,
 cor varchar(50) not null,
 defeito varchar(150) not null,
-servico varchar(150),
-mecanico varchar(50),
-valor decimal(10,2),
+servico varchar(150) not null,
+mecanico varchar(50) not null,
+valor decimal(10,2) not null,
 idcli int not null,
 foreign key(idcli) references tbclientes(idcli)
 );

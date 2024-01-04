@@ -335,6 +335,11 @@ public class TelaClientes extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblClientes);
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/oficinamecanica/icones/lupa.png"))); // NOI18N
+        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel12MouseClicked(evt);
+            }
+        });
 
         jLabel1.setText("Id Cliente");
 
@@ -514,6 +519,10 @@ public class TelaClientes extends javax.swing.JInternalFrame {
         //chamando o método para setar campos
         setar_campos();
     }//GEN-LAST:event_tblClientesMouseClicked
+
+    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel12MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

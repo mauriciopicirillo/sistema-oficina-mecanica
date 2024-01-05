@@ -9,9 +9,11 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.TextField;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -24,53 +26,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() {
         initComponents();
-
-        // Adiciona um ComponentAdapter para capturar eventos de alteração no tamanho da janela
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                centralizarJPanel();
-            }
-        });
-
-        // Centraliza o jPanel1 inicialmente
-        centralizarJPanel();
-
-        // Configuração do layout para jPanel2
-        jPanel2.setLayout(new GridBagLayout());
-
-        // Adiciona o componente ao GridBagConstraints para expandir verticalmente
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.VERTICAL; // Define para expandir verticalmente
-        gbc.weighty = 1.0; // Peso para expandir na direção vertical
-
-        // Adiciona um componente fictício (por exemplo, um JLabel) para ocupar espaço vertical
-        jPanel2.add(new javax.swing.JLabel(), gbc);
-    }
-
-    // Método para centralizar o jPanel1
-    private void centralizarJPanel() {
-        // Obtém as dimensões do contêiner e do jPanel1
-        Dimension containerSize = getSize();
-        Dimension panelSize = jPanel2.getPreferredSize();
-
-        // Calcula a posição para centralizar o jPanel1 horizontalmente
-        int x = (containerSize.width - panelSize.width) / 2;
-
-        // Se a janela não estiver maximizada, calcula a posição para centralizar o jPanel1 verticalmente
-        int y = (containerSize.height - panelSize.height) / 2;
-
-        // Se a janela estiver maximizada, ajusta a altura do jPanel1 para a altura disponível
-        if (getExtendedState() == MAXIMIZED_BOTH) {
-            y = 0;  // Define o topo do jPanel1 para o topo da janela
-            panelSize.height = containerSize.height;  // Define a altura do jPanel1 para a altura da janela
-//            x = 0; // Define a largura do jPanel1 para o comprimento da janela
-//            panelSize.width = containerSize.width; // Define a largura do jPanel1 para a altura da janela
-        }
-
-        // Define a posição e o tamanho do jPanel1
-        jPanel2.setBounds(x, y, panelSize.width, panelSize.height);
-
     }
 
     /**
@@ -93,7 +48,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButtonOrcamentos = new javax.swing.JButton();
         jButtonRelatorios = new javax.swing.JButton();
         jLabelUsuario = new javax.swing.JLabel();
-        desktop = new javax.swing.JPanel();
+        desktop = new javax.swing.JDesktopPane();
         Menu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menCad = new javax.swing.JMenuItem();
@@ -105,17 +60,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema Ricardo Oficina Mecânica e Auto Eletrico");
-        setBackground(new java.awt.Color(192, 215, 225));
+        setBackground(new java.awt.Color(0, 0, 0));
+        setMaximumSize(new java.awt.Dimension(1024, 768));
         setMinimumSize(new java.awt.Dimension(1024, 768));
-        setPreferredSize(new java.awt.Dimension(0, 0));
+        setPreferredSize(new java.awt.Dimension(1024, 768));
+        setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(192, 215, 225));
-        jPanel2.setMinimumSize(new java.awt.Dimension(1024, 757));
-        jPanel2.setPreferredSize(new java.awt.Dimension(1024, 757));
+        jPanel2.setMaximumSize(new java.awt.Dimension(1024, 757));
+        jPanel2.setMinimumSize(new java.awt.Dimension(1024, 727));
+        jPanel2.setPreferredSize(new java.awt.Dimension(1024, 727));
 
         jPanel1.setBackground(new java.awt.Color(192, 215, 225));
-        jPanel1.setMinimumSize(new java.awt.Dimension(1004, 724));
-        jPanel1.setPreferredSize(new java.awt.Dimension(1004, 724));
+        jPanel1.setMaximumSize(new java.awt.Dimension(1022, 724));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1022, 724));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1022, 724));
         jPanel1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jPanel1PropertyChange(evt);
@@ -125,6 +84,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         cabecalho.setBackground(new java.awt.Color(192, 215, 225));
         cabecalho.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         cabecalho.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        cabecalho.setMaximumSize(new java.awt.Dimension(1000, 180));
+        cabecalho.setMinimumSize(new java.awt.Dimension(1000, 180));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/oficinamecanica/icones/LogoT.png"))); // NOI18N
 
@@ -170,7 +131,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGroup(cabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(cabecalhoLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addGap(68, 68, 68))
                     .addGroup(cabecalhoLayout.createSequentialGroup()
@@ -190,7 +151,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addGroup(cabecalhoLayout.createSequentialGroup()
                         .addComponent(jButtonRelatorios)
                         .addGap(10, 10, 10)))
-                .addGap(31, 31, 31))
+                .addContainerGap())
         );
         cabecalhoLayout.setVerticalGroup(
             cabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,7 +164,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cabecalhoLayout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(cabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(cabecalhoLayout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -222,18 +183,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         desktop.setBackground(new java.awt.Color(192, 215, 225));
         desktop.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        desktop.setAutoscrolls(true);
-        desktop.setMinimumSize(new java.awt.Dimension(980, 503));
+        desktop.setMaximumSize(new java.awt.Dimension(1000, 653));
+        desktop.setMinimumSize(new java.awt.Dimension(1000, 653));
+        desktop.setPreferredSize(new java.awt.Dimension(1000, 653));
 
         javax.swing.GroupLayout desktopLayout = new javax.swing.GroupLayout(desktop);
         desktop.setLayout(desktopLayout);
         desktopLayout.setHorizontalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 980, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         desktopLayout.setVerticalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 507, Short.MAX_VALUE)
+            .addGap(0, 649, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -242,19 +204,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cabecalho, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cabecalho, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(cabecalho, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(16, 16, 16)
+                .addComponent(cabecalho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(desktop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -262,16 +224,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 2, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 866, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jMenu1.setText("Cadastro");
@@ -319,18 +279,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1024, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 757, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)
         );
 
-        setSize(new java.awt.Dimension(1040, 807));
+        setSize(new java.awt.Dimension(1038, 926));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -348,10 +304,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRelatoriosActionPerformed
 
     private void jButtonOrcamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOrcamentosActionPerformed
-        // chamando a tela de orçamentos
+        //chamando a tela de orçamentos
         TelaOs os = new TelaOs();
         os.setVisible(true);
         desktop.add(os);
+        
 
     }//GEN-LAST:event_jButtonOrcamentosActionPerformed
 
@@ -410,7 +367,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar Menu;
     private javax.swing.JPanel cabecalho;
-    private javax.swing.JPanel desktop;
+    private javax.swing.JDesktopPane desktop;
     private javax.swing.JButton jButtonClientes;
     private javax.swing.JButton jButtonOrcamentos;
     public static javax.swing.JButton jButtonRelatorios;
@@ -429,4 +386,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public static javax.swing.JMenuItem menCad;
     public static javax.swing.JMenu menRel;
     // End of variables declaration//GEN-END:variables
+
+    private void setEnable(boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

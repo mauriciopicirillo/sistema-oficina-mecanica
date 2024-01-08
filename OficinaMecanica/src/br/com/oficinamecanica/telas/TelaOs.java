@@ -6,12 +6,18 @@
 package br.com.oficinamecanica.telas;
 
 import br.com.oficinamecanica.dal.ModuloConexao;
+import static br.com.oficinamecanica.telas.TelaClientes.tblClientes;
 import static br.com.oficinamecanica.telas.TelaOs.tblClientes;
 import static br.com.oficinamecanica.telas.TelaOs.txtCliPesquisar;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -24,14 +30,89 @@ public class TelaOs extends javax.swing.JInternalFrame {
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
+
+    // Constantes para os nomes das colunas
+    private static final int DESCRICAO = 1;
+    private static final int QUANTIDADE = 2;
+    private static final int VALORUNITARIO = 3;
+    private static final int TOTAL = 4;
+
+    //a linha abaixo cria uma variável para armazenar um texto de acordo com o radion button selecionado
+    private String tipo;
+
     /**
-     * Creates new form TelaO
+     * Creates new form TelaOs
      */
     public TelaOs() {
         initComponents();
         conexao = ModuloConexao.conector();
     }
-    
+
+    //método para cadastras OS
+    private void emitir_os() {
+        String sql = "insert into tbos(tipo,situacao,veiculo,placa,marca,versao,ano,motor,cor,defeito,servico,mecanico,valor,idcli,nomecli,telefonecli) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, tipo);
+            pst.setString(2, cboOsSit.getSelectedItem().toString());
+            pst.setString(3, txtNomeVei.getText());
+            pst.setString(4, txtPlacaVei.getText());
+            pst.setString(5, txtMarcaVei.getText());
+            pst.setString(6, txtVersaoVei.getText());
+            pst.setString(7, txtAnoVei.getText());
+            pst.setString(8, txtMotorVei.getText());
+            pst.setString(9, txtCorVei.getText());
+            pst.setString(10, txtDefeitoVei.getText());
+            pst.setString(11, getDadosDaTabela(tblServicoVei));
+            pst.setString(12, txtOsMecanico.getText());
+            pst.setString(13, txtOsValor.getText());
+            pst.setString(14, txtCliId.getText());
+            pst.setString(15, txtNomeCli.getText());
+            pst.setString(16, txtTelefoneCli.getText());
+            //validação dos campos obrigatórios
+            if ((txtNomeVei.getText().isEmpty()) || (txtPlacaVei.getText().isEmpty()) || (txtMarcaVei.getText().isEmpty())
+                    || (txtVersaoVei.getText().isEmpty()) || (txtAnoVei.getText().isEmpty()) || (txtMotorVei.getText().isEmpty()) || (txtCorVei.getText().isEmpty()) || (txtDefeitoVei.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
+            } else {
+
+                //a linha abaixo atualiza a tabela usuario com o dados do formulário
+                //a estrutura abaixo é usada para confirmar a inserção dos dados na tabela
+                int adicionado = pst.executeUpdate();
+                //a linha abaixo serve de apoio ao entendimento da lógica
+                //System.out.println(adicionado);
+                if (adicionado > 0) {
+                    JOptionPane.showMessageDialog(null, "OS adicionado com sucesso!");
+                    conexao.commit();
+                    limpar();
+
+                }
+            }
+        } catch (Exception e) {
+            // Tratamento específico para exceções SQL
+            JOptionPane.showMessageDialog(null, "Erro ao emitir OS: " + e.getMessage());
+        }
+    }
+
+    private String getDadosDaTabela(JTable tabela) {
+        DefaultTableModel model = (DefaultTableModel) tabela.getModel();
+        int rowCount = model.getRowCount();
+        StringBuilder dados = new StringBuilder();
+
+        for (int i = 0; i < rowCount; i++) {
+            // Exemplo: assumindo que a tabela tenha colunas "Serviço" e "Descrição"
+            String servico = model.getValueAt(i, DESCRICAO).toString();
+            String quantidade = model.getValueAt(i, QUANTIDADE).toString();
+            String valorunitario = model.getValueAt(i, VALORUNITARIO).toString();
+            String total = model.getValueAt(i, TOTAL).toString();
+
+            // Aqui você pode concatenar os dados ou formatá-los de acordo com suas necessidades
+            dados.append(servico).append(": ").append(total).append("\n");
+        }
+
+        return dados.toString();
+    }
+
+    //método para pesquisar clientes pelo nome com filtro
     private void pesquisar_cliente() {
         String sql = "select idcli as Id, nomecli as Nome, fonecli as Telefone from tbclientes where nomecli like ?";
         try {
@@ -47,7 +128,16 @@ public class TelaOs extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
+
+    //método para setar os campos do formulário com o conteúdo da tabela
+    public void setar_campos() {
+        int setar = tblClientes.getSelectedRow();
+        txtCliId.setText(tblClientes.getModel().getValueAt(setar, 0).toString());
+        txtNomeCli.setText(tblClientes.getModel().getValueAt(setar, 1).toString());
+        txtTelefoneCli.setText((String) tblClientes.getModel().getValueAt(setar, 2));
+        
+    }
+
     private void limpar() {
 //        txtIdOs.setText(null);
 //        txtDataOs.setText(null);
@@ -136,6 +226,23 @@ public class TelaOs extends javax.swing.JInternalFrame {
         setMaximumSize(new java.awt.Dimension(984, 613));
         setMinimumSize(new java.awt.Dimension(984, 613));
         setPreferredSize(new java.awt.Dimension(984, 613));
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         fundoCor.setBackground(new java.awt.Color(192, 215, 225));
         fundoCor.setMaximumSize(new java.awt.Dimension(779, 805));
@@ -157,9 +264,19 @@ public class TelaOs extends javax.swing.JInternalFrame {
 
         rbtOrc.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         rbtOrc.setText("Orçamento");
+        rbtOrc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtOrcActionPerformed(evt);
+            }
+        });
 
         rbtOs.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         rbtOs.setText("Ordem de Serviço");
+        rbtOs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtOsActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("Data");
@@ -252,7 +369,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Descrição", "Quantidade", "Valor Unitário", "Valor"
+                "Descrição", "Quantidade", "Valor Unitário", "Total"
             }
         ) {
             Class[] types = new Class [] {
@@ -264,6 +381,11 @@ public class TelaOs extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane3.setViewportView(tblServicoVei);
+        if (tblServicoVei.getColumnModel().getColumnCount() > 0) {
+            tblServicoVei.getColumnModel().getColumn(1).setMaxWidth(80);
+            tblServicoVei.getColumnModel().getColumn(2).setMaxWidth(100);
+            tblServicoVei.getColumnModel().getColumn(3).setMaxWidth(100);
+        }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -461,7 +583,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
         jLabel2.setText("Situação");
 
         cboOsSit.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        cboOsSit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Entrega OK", "Orçamento Reprovado", "Aguardando Aprovação", "Aguardando Peças", "Na Oficina", "Retornou" }));
+        cboOsSit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Na Oficina", "Entrega OK", "Orçamento Reprovado", "Aguardando Aprovação", "Aguardando Peças", "Na Oficina", "Retornou" }));
 
         jPanel5.setBackground(new java.awt.Color(192, 215, 225));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cliente", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
@@ -605,7 +727,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
 
     private void btnOsAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOsAdicionarActionPerformed
         // chamando método adicionar
-        //        adicionar();
+        emitir_os();
     }//GEN-LAST:event_btnOsAdicionarActionPerformed
 
     private void btnOsRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOsRemoverActionPerformed
@@ -625,8 +747,24 @@ public class TelaOs extends javax.swing.JInternalFrame {
     private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
         // evento que será usado para setar os campos da tabela (clicando com o mouse)
         //chamando o método para setar campos
-        //        setar_campos();
+        setar_campos();
     }//GEN-LAST:event_tblClientesMouseClicked
+
+    private void rbtOrcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtOrcActionPerformed
+        //atribuindo um texto a variável tipo se selecionado
+        tipo = "Orçamento";
+    }//GEN-LAST:event_rbtOrcActionPerformed
+
+    private void rbtOsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtOsActionPerformed
+        //atribuindo um texto a variável tipo se selecionado
+        tipo = "Ordem de Serviço";
+    }//GEN-LAST:event_rbtOsActionPerformed
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        //ao abrir o form marcar o radion button Orçamento
+        rbtOrc.setSelected(true);
+        tipo = "Orçamento";
+    }//GEN-LAST:event_formInternalFrameOpened
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -129,15 +129,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(cabecalhoLayout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
                 .addGroup(cabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(cabecalhoLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cabecalhoLayout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(68, 68, 68))
-                    .addGroup(cabecalhoLayout.createSequentialGroup()
-                        .addGap(103, 103, 103)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cabecalhoLayout.createSequentialGroup()
                         .addComponent(jButtonClientes)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(93, 93, 93)))
                 .addGroup(cabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cabecalhoLayout.createSequentialGroup()
                         .addComponent(jButtonOrcamentos)
@@ -185,7 +184,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         desktop.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         desktop.setMaximumSize(new java.awt.Dimension(1000, 653));
         desktop.setMinimumSize(new java.awt.Dimension(1000, 653));
-        desktop.setPreferredSize(new java.awt.Dimension(1000, 653));
 
         javax.swing.GroupLayout desktopLayout = new javax.swing.GroupLayout(desktop);
         desktop.setLayout(desktopLayout);

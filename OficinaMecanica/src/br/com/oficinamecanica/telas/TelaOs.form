@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
   <Properties>
     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
       <Border info="null"/>
@@ -28,6 +28,9 @@
     <SyntheticProperty name="generatePosition" type="boolean" value="true"/>
     <SyntheticProperty name="generateSize" type="boolean" value="true"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="internalFrameOpened" listener="javax.swing.event.InternalFrameListener" parameters="javax.swing.event.InternalFrameEvent" handler="formInternalFrameOpened"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -200,6 +203,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Or&#xe7;amento"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbtOrcActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="rbtOs">
               <Properties>
@@ -208,6 +214,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ordem de Servi&#xe7;o"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbtOsActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
               <Properties>
@@ -515,8 +524,32 @@
                             <Column editable="true" title="Descri&#xe7;&#xe3;o" type="java.lang.String"/>
                             <Column editable="true" title="Quantidade" type="java.lang.Integer"/>
                             <Column editable="true" title="Valor Unit&#xe1;rio" type="java.lang.Float"/>
-                            <Column editable="true" title="Valor" type="java.lang.Float"/>
+                            <Column editable="true" title="Total" type="java.lang.Float"/>
                           </Table>
+                        </Property>
+                        <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                          <TableColumnModel selectionModel="0">
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="80" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="100" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="100" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                          </TableColumnModel>
                         </Property>
                         <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                           <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
@@ -669,13 +702,14 @@
               <Font name="Segoe UI" size="12" style="0"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="6">
-                <StringItem index="0" value="Entrega OK"/>
-                <StringItem index="1" value="Or&#xe7;amento Reprovado"/>
-                <StringItem index="2" value="Aguardando Aprova&#xe7;&#xe3;o"/>
-                <StringItem index="3" value="Aguardando Pe&#xe7;as"/>
-                <StringItem index="4" value="Na Oficina"/>
-                <StringItem index="5" value="Retornou"/>
+              <StringArray count="7">
+                <StringItem index="0" value="Na Oficina"/>
+                <StringItem index="1" value="Entrega OK"/>
+                <StringItem index="2" value="Or&#xe7;amento Reprovado"/>
+                <StringItem index="3" value="Aguardando Aprova&#xe7;&#xe3;o"/>
+                <StringItem index="4" value="Aguardando Pe&#xe7;as"/>
+                <StringItem index="5" value="Na Oficina"/>
+                <StringItem index="6" value="Retornou"/>
               </StringArray>
             </Property>
           </Properties>

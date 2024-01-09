@@ -5,6 +5,7 @@
  */
 package br.com.oficinamecanica.telas;
 
+import br.com.oficinamecanica.dal.ModuloConexao;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -14,18 +15,24 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import java.sql.*;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
  * @author ti.speed
  */
 public class TelaPrincipal extends javax.swing.JFrame {
+    Connection conexao = null;
 
     /**
      * Creates new form TelaPrincipal
      */
     public TelaPrincipal() {
         initComponents();
+        conexao = ModuloConexao.conector();
     }
 
     /**
@@ -53,6 +60,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         menCad = new javax.swing.JMenuItem();
         menRel = new javax.swing.JMenu();
+        menRelSer = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
@@ -248,11 +256,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         menRel.setText("Relatórios");
         menRel.setEnabled(false);
+
+        menRelSer.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK));
+        menRelSer.setText("Serviços");
+        menRelSer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menRelSerActionPerformed(evt);
+            }
+        });
+        menRel.add(menRelSer);
+
         Menu.add(menRel);
 
         jMenu3.setText("Ajuda");
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("Sobre");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -327,6 +345,23 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel1PropertyChange
 
+    private void menRelSerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRelSerActionPerformed
+        // gerando um relatório de serviços
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a impressão deste relatório?","Atenção",JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION){
+            //imprimindo o relatório com o framework JasperReport
+            try {
+                //usando a classe JasperPrint para preparar a impressão de um relatório
+                //falta colocar o caminho para poder fazer a impressão
+                JasperPrint print = JasperFillManager.fillReport("",null,conexao);
+                //a linha abaixo exibe o relatório através da classe JasperViewer
+                JasperViewer.viewReport(print, false);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }//GEN-LAST:event_menRelSerActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -383,6 +418,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     public static javax.swing.JMenuItem menCad;
     public static javax.swing.JMenu menRel;
+    private javax.swing.JMenuItem menRelSer;
     // End of variables declaration//GEN-END:variables
 
     private void setEnable(boolean b) {

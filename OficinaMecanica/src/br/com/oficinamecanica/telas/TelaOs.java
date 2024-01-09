@@ -73,7 +73,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
             pst.setString(16, txtTelefoneCli.getText());
             //validação dos campos obrigatórios
             if ((txtNomeVei.getText().isEmpty()) || (txtPlacaVei.getText().isEmpty()) || (txtMarcaVei.getText().isEmpty())
-                    || (txtVersaoVei.getText().isEmpty()) || (txtAnoVei.getText().isEmpty()) || (txtMotorVei.getText().isEmpty()) || (txtCorVei.getText().isEmpty()) || (txtDefeitoVei.getText().isEmpty())) {
+                    || (txtVersaoVei.getText().isEmpty()) || (txtAnoVei.getText().isEmpty()) || (txtMotorVei.getText().isEmpty()) || (txtCorVei.getText().isEmpty()) || (txtDefeitoVei.getText().isEmpty()) || cboOsSit.getSelectedItem().equals(" ")) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
             } else {
 
@@ -83,7 +83,13 @@ public class TelaOs extends javax.swing.JInternalFrame {
                 //a linha abaixo serve de apoio ao entendimento da lógica
                 //System.out.println(adicionado);
                 if (adicionado > 0) {
-                    JOptionPane.showMessageDialog(null, "OS adicionado com sucesso!");
+                    JOptionPane.showMessageDialog(null, "OS emitida com sucesso!");
+                    //recuperar o número da OS
+                    recuperarOs();
+                    btnOsAdicionar.setEnabled(false);
+                    btnOsPesquisar.setEnabled(false);
+                    btnOsImprimir.setEnabled(true);
+
                     conexao.commit();
                     limpar();
 
@@ -118,7 +124,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
     private void pesquisar_os() {
         //a linha abaixo cria uma caixa de entrada do tipo JOption Pane
         String num_os = JOptionPane.showInputDialog("Número da OS");
-        String sql = "select * from tbos where idos = " + num_os;
+        String sql = "select idos,date_format(data_os,'%d/%m/%Y - %H:%i'),tipo,situacao,veiculo,placa,marca,versao,ano,ano,motor,cor,defeito,servico,mecanico,valor,idcli,nomecli,telefonecli from tbos where idos=" + num_os;
         try {
             pst = conexao.prepareStatement(sql);
             rs = pst.executeQuery();
@@ -152,8 +158,14 @@ public class TelaOs extends javax.swing.JInternalFrame {
 
                 //evitando problemas
                 btnOsAdicionar.setEnabled(false);
+                btnOsPesquisar.setEnabled(false);
                 txtCliPesquisar.setEnabled(false);
                 tblClientes.setVisible(false);
+
+                //ativar demais botões
+                btnOsAlterar.setEnabled(true);
+                btnOsRemover.setEnabled(true);
+                btnOsImprimir.setEnabled(true);
 
             } else {
                 JOptionPane.showMessageDialog(null, "OS não cadastrada!");
@@ -192,7 +204,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
             pst.setString(17, txtOs.getText());
             //validação dos campos obrigatórios
             if ((txtNomeVei.getText().isEmpty()) || (txtPlacaVei.getText().isEmpty()) || (txtMarcaVei.getText().isEmpty())
-                    || (txtVersaoVei.getText().isEmpty()) || (txtAnoVei.getText().isEmpty()) || (txtMotorVei.getText().isEmpty()) || (txtCorVei.getText().isEmpty()) || (txtDefeitoVei.getText().isEmpty())) {
+                    || (txtVersaoVei.getText().isEmpty()) || (txtAnoVei.getText().isEmpty()) || (txtMotorVei.getText().isEmpty()) || (txtCorVei.getText().isEmpty()) || (txtDefeitoVei.getText().isEmpty()) || cboOsSit.getSelectedItem().equals(" ")) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
             } else {
                 //a linha abaixo atualiza a tabela usuario com o dados do formulário
@@ -268,9 +280,27 @@ public class TelaOs extends javax.swing.JInternalFrame {
 
     }
 
+    //recuperar id da OS
+    private void recuperarOs() {
+        String sql = "select max(idos) from tbos";
+        try {
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+            if(rs.next()){
+                txtOs.setText(rs.getString(1));
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
     private void limpar() {
         txtOs.setText(null);
         txtData.setText(null);
+        txtCliPesquisar.setText(null);
+        ((DefaultTableModel) tblClientes.getModel()).setRowCount(0);
+        cboOsSit.setSelectedItem(" ");
         txtNomeCli.setText(null);
         txtTelefoneCli.setText(null);
         txtNomeVei.setText(null);
@@ -284,6 +314,15 @@ public class TelaOs extends javax.swing.JInternalFrame {
         ((DefaultTableModel) tblServicoVei.getModel()).setRowCount(0);
         txtOsMecanico.setText(null);
         txtOsValor.setText(null);
+        //habilitar os objetos
+        btnOsAdicionar.setEnabled(true);
+        btnOsPesquisar.setEnabled(true);
+        txtCliPesquisar.setEditable(true);
+        tblClientes.setVisible(true);
+        //desabilitar os botões
+        btnOsAlterar.setEnabled(false);
+        btnOsRemover.setEnabled(false);
+        btnOsImprimir.setEnabled(false);
     }
 
     /**
@@ -414,7 +453,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
         jLabel6.setText("Data");
 
         txtData.setEditable(false);
-        txtData.setFont(new java.awt.Font("Tahoma", 1, 9)); // NOI18N
+        txtData.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         txtData.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -459,7 +498,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel7.setText("Veiculo");
+        jLabel7.setText("Modelo");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel8.setText("Placa");
@@ -568,6 +607,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
         });
 
         btnOsAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/oficinamecanica/icones/update.png"))); // NOI18N
+        btnOsAlterar.setEnabled(false);
         btnOsAlterar.setPreferredSize(new java.awt.Dimension(57, 57));
         btnOsAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -576,6 +616,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
         });
 
         btnOsRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/oficinamecanica/icones/delete.png"))); // NOI18N
+        btnOsRemover.setEnabled(false);
         btnOsRemover.setMaximumSize(new java.awt.Dimension(57, 57));
         btnOsRemover.setMinimumSize(new java.awt.Dimension(57, 57));
         btnOsRemover.setPreferredSize(new java.awt.Dimension(57, 57));
@@ -586,6 +627,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
         });
 
         btnOsImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/oficinamecanica/icones/impressora.png"))); // NOI18N
+        btnOsImprimir.setEnabled(false);
         btnOsImprimir.setPreferredSize(new java.awt.Dimension(57, 57));
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -623,7 +665,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtTelefoneCli, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtNomeVei, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -715,10 +757,10 @@ public class TelaOs extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -741,7 +783,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
         jLabel2.setText("Situação");
 
         cboOsSit.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        cboOsSit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Na Oficina", "Entrega OK", "Orçamento Reprovado", "Aguardando Aprovação", "Aguardando Peças", "Na Oficina", "Retornou" }));
+        cboOsSit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Na Oficina", "Entrega OK", "Orçamento Reprovado", "Aguardando Aprovação", "Aguardando Peças", "Na Oficina", "Retornou" }));
 
         jPanel5.setBackground(new java.awt.Color(192, 215, 225));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cliente", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
